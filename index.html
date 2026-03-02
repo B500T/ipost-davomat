@@ -133,8 +133,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;m
       <div class="fg"><label>Gmail *</label><input type="email" id="rEm" placeholder="xodim@gmail.com"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px"><div class="fg"><label>Smena boshi</label><input type="time" id="rSS" value="09:00"></div><div class="fg"><label>Smena oxiri</label><input type="time" id="rSE" value="18:00"></div></div>
       <div class="fg"><label>Status</label><select id="rSt"><option value="active">✅ Active</option><option value="pending">⏳ Pending</option></select></div>
-      <div class="fg"><label>📷 Bazaviy rasm</label><div class="cam"><div class="cam-ph" id="rCamPh">📷 Kamerani yoqing</div><video id="rVid" autoplay playsinline muted class="hid"></video><canvas id="rCvs" class="hid"></canvas><img id="rImg" class="hid" style="width:100%;max-height:200px;object-fit:cover"></div></div>
-      <div style="display:flex;gap:5px;margin-bottom:10px"><button class="btn btn-p btn-sm" id="rBC" onclick="rCamOn()" style="flex:1;margin:0">📷 Kamera</button><button class="btn btn-o btn-sm hid" id="rBS" onclick="rCamSnap()" style="flex:1;margin:0">📸 Olish</button><button class="btn btn-d btn-sm hid" id="rBR" onclick="rCamRe()" style="flex:1;margin:0">🔄</button></div>
+      <div class="fg"><label>📷 Bazaviy rasm</label><div class="cam"><div class="cam-ph" id="rCamPh">📷 Kamera yoki 📁 Fayldan yuklang</div><video id="rVid" autoplay playsinline muted class="hid"></video><canvas id="rCvs" class="hid"></canvas><img id="rImg" class="hid" style="width:100%;max-height:200px;object-fit:cover"></div></div>
+      <input type="file" id="rFile" accept="image/*" style="display:none" onchange="rFileUpload(event)">
+      <div style="display:flex;gap:5px;margin-bottom:10px"><button class="btn btn-p btn-sm" id="rBC" onclick="rCamOn()" style="flex:1;margin:0">📷 Kamera</button><button class="btn btn-o btn-sm" id="rBF" onclick="$('rFile').click()" style="flex:1;margin:0">📁 Rasm yuklash</button><button class="btn btn-o btn-sm hid" id="rBS" onclick="rCamSnap()" style="flex:1;margin:0">📸 Olish</button><button class="btn btn-d btn-sm hid" id="rBR" onclick="rCamRe()" style="flex:1;margin:0">🔄</button></div>
       <button class="btn btn-g" onclick="regSubmit()">✅ Ro'yxatga olish</button>
     </div>
     <button class="btn btn-d btn-sm" onclick="logout()" style="margin-top:14px">🚪 Chiqish</button>
@@ -146,7 +147,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;m
 <script>
 // =============================================
 // ⚠️ SHU YERGA APPS SCRIPT WEB APP URL JOYLANG:
-var API = 'https://script.google.com/macros/s/AKfycbwQwcTq9DrAlv3fMc8WD-7XSCq0AnTgifgmG97ABfSd4crK4TH3dy4J_i0zNJlyo2OD/exec';
+var API = 'APPS_SCRIPT_URL_SHUYER';
 // =============================================
 
 var U=null,ST=null,photo64=null,fSc=0;
@@ -283,15 +284,32 @@ function loadEmps(){
 }
 
 // ===== REGISTER =====
-function rCamOn(){var b=$('rBC');b.textContent='⏳...';b.disabled=true;navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:480},height:{ideal:360}}}).then(function(s){rStream=s;$('rVid').srcObject=s;S('rVid');H('rCamPh');H('rBC');S('rBS')}).catch(function(e){b.textContent='📷 Kamera';b.disabled=false;ntf('Kamera: '+e.message,'err')})}
+function rCamOn(){var b=$('rBC');b.textContent='⏳...';b.disabled=true;navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:480},height:{ideal:360}}}).then(function(s){rStream=s;$('rVid').srcObject=s;S('rVid');H('rCamPh');H('rBC');H('rBF');S('rBS')}).catch(function(e){b.textContent='📷 Kamera';b.disabled=false;ntf('Kamera: '+e.message,'err')})}
 function rCamSnap(){var v=$('rVid'),c=$('rCvs');c.width=v.videoWidth||480;c.height=v.videoHeight||360;var x=c.getContext('2d');x.translate(c.width,0);x.scale(-1,1);x.drawImage(v,0,0);x.setTransform(1,0,0,1,0,0);rPhoto=c.toDataURL('image/jpeg',0.7);$('rImg').src=rPhoto;S('rImg');stopS(rStream);rStream=null;H('rVid');H('rBS');S('rBR');ntf('✅ Rasm olindi!','ok')}
-function rCamRe(){H('rImg');H('rBR');rPhoto=null;rCamOn()}
+function rCamRe(){H('rImg');H('rBR');H('rBS');rPhoto=null;$('rFile').value='';S('rBC');S('rBF');S('rCamPh');stopS(rStream);rStream=null;H('rVid');$('rBC').textContent='📷 Kamera';$('rBC').disabled=false}
+function rFileUpload(e){
+  var file=e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      var c=$('rCvs');var max=640;var w=img.width,h=img.height;
+      if(w>max){h=Math.round(h*max/w);w=max}
+      c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+      rPhoto=c.toDataURL('image/jpeg',0.7);
+      $('rImg').src=rPhoto;S('rImg');H('rCamPh');H('rBC');H('rBF');H('rBS');S('rBR');
+      ntf('✅ Rasm yuklandi!','ok');
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 function regSubmit(){
   var fn=gv('rFio'),pos=gv('rPos'),dep=gv('rDep'),ph=gv('rPh'),em=gv('rEm');
   if(!fn||!pos||!dep||!em){ntf('⚠️ Maydonlarni to\'ldiring!','err');return}
   ovShow('Saqlanmoqda...');
   api('register',{fullName:fn,position:pos,department:dep,phone:ph,email:em.toLowerCase(),shiftStart:gv('rSS')||'09:00',shiftEnd:gv('rSE')||'18:00',status:$('rSt').value,photo:rPhoto||''},function(r){
-    ovHide();if(r.success){ntf(r.message,'ok');['rFio','rPos','rDep','rPh','rEm'].forEach(function(id){$(id).value=''});H('rImg');H('rBR');S('rBC');$('rBC').textContent='📷 Kamera';$('rBC').disabled=false;S('rCamPh');rPhoto=null}else ntf(r.message,'err')});
+    ovHide();if(r.success){ntf(r.message,'ok');['rFio','rPos','rDep','rPh','rEm'].forEach(function(id){$(id).value=''});H('rImg');H('rBR');S('rBC');S('rBF');$('rBC').textContent='📷 Kamera';$('rBC').disabled=false;S('rCamPh');rPhoto=null;$('rFile').value=''}else ntf(r.message,'err')});
 }
 
 // ===== UTILS =====
