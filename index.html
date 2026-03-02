@@ -146,7 +146,17 @@ function eCamSnap(){
 
   var img=$('eSnap');
   var doDetect=async function(){
-    if(!faceReady){fSc=80;$('eFrTx').innerHTML='✅ Rasm qabul qilindi<br><span style="font-size:10px;color:#64748b">🔒 Yuz server tomondan tekshiriladi</span>';showBtns();return}
+    // Model hali yuklanmagan — kutamiz (max 8s)
+    if(!faceReady){
+      for(var w=0;w<8;w++){await new Promise(function(r){setTimeout(r,1000)});if(faceReady)break}
+    }
+    // Hali ham yuklanmagan
+    if(!faceReady){
+      fSc=0;
+      $('eFrTx').innerHTML='⚠️ Yuz modeli yuklanmadi.<br><span style="font-size:10px;color:#f59e0b">Internet sekin. Sahifani yangilab qayta urinib ko\'ring.</span>';
+      ntf('⚠️ Yuz tekshiruv modeli yuklanmadi. Sahifani yangilang.','err');
+      return;
+    }
     try{
       var det=await faceapi.detectSingleFace(img,new faceapi.TinyFaceDetectorOptions({inputSize:224,scoreThreshold:0.3}));
       if(det&&det.score>=0.4){
@@ -158,7 +168,10 @@ function eCamSnap(){
         $('eFrTx').innerHTML='❌ Yuz aniqlanmadi!<br><span style="font-size:10px;color:#f59e0b">Yaxshi yoritilgan joyda to\'g\'ri qarang va qayta oling</span>';
         ntf('❌ Yuz aniqlanmadi! Qayta suratga oling.','err');
       }
-    }catch(e){fSc=80;$('eFrTx').innerHTML='✅ Rasm qabul qilindi';showBtns()}
+    }catch(e){
+      fSc=0;
+      $('eFrTx').innerHTML='⚠️ Tekshirishda xatolik.<br><span style="font-size:10px;color:#f59e0b">Qayta suratga oling</span>';
+    }
   };
   if(img.complete&&img.naturalHeight>0)doDetect();else img.onload=function(){doDetect();img.onload=null};
 }
