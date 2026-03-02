@@ -4,65 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>iPOST Davomat</title>
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22iPOST%20Davomat%22%2C%22short_name%22%3A%22Davomat%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%236366f1%22%7D">
 <meta name="theme-color" content="#0f172a">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;-webkit-user-select:none;user-select:none}
-.w{max-width:480px;margin:0 auto;padding:14px;padding-bottom:50px}
-.hdr{text-align:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:14px}
-.hdr h1{font-size:18px;font-weight:700;color:#f1f5f9}
-.hdr .sub{font-size:11px;color:#64748b;margin-top:2px}
-.card{background:linear-gradient(135deg,#1e293b,#1e1b4b);border:1px solid rgba(99,102,241,.15);border-radius:14px;padding:14px;margin-bottom:12px}
-.card .row{display:flex;align-items:center;gap:10px}
-.ava{width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0}
-.nm{font-size:15px;font-weight:600;color:#fff}
-.det{font-size:11px;color:#94a3b8}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:7px;font-size:10px;font-weight:600;border:1px solid;margin:0 4px 8px 0}
-.b-b{background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.15);color:#93c5fd}
-.b-g{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.15);color:#6ee7b7}
-.sg{background:#1e293b;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:10px;margin-bottom:12px}
-.sg .lbl{font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
-.sg .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
-.sg .it{text-align:center}.sg .it .t{font-size:9px;color:#64748b}.sg .it .v{font-size:13px;font-weight:600;color:#fff}
-.cam{background:#0f172a;border:2px solid rgba(99,102,241,.2);border-radius:14px;overflow:hidden;margin-bottom:12px;position:relative}
-.cam video,.cam img{width:100%;display:block;max-height:300px;object-fit:cover}
-.cam video{transform:scaleX(-1)}
-.cam-ph{padding:36px 16px;text-align:center;color:#475569;font-size:12px}
-.live{position:absolute;top:8px;left:8px;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.7);padding:3px 8px;border-radius:6px;font-size:10px;color:#ef4444;font-weight:700}
-.live::before{content:'';width:6px;height:6px;background:#ef4444;border-radius:50%;animation:bl 1s infinite}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
-.fr{background:#1e293b;border-radius:10px;padding:10px;margin-bottom:12px;text-align:center}
-.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:13px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;color:#fff;margin-bottom:7px}
-.btn:active{transform:scale(.97)}.btn:disabled{opacity:.3;cursor:not-allowed}
-.btn-p{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
-.btn-g{background:linear-gradient(135deg,#10b981,#059669)}
-.btn-r{background:linear-gradient(135deg,#ef4444,#dc2626)}
-.btn-d{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#94a3b8}
-.btn-o{background:linear-gradient(135deg,#f59e0b,#d97706)}
-.btn-sm{padding:9px;font-size:12px;border-radius:9px}
-.fg{margin-bottom:10px}
-.fg label{display:block;font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:3px}
-.fg input,.fg select{width:100%;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px;color:#fff;font-family:inherit;font-size:13px;outline:0}
-.fg input:focus{border-color:rgba(99,102,241,.4)}.fg input::placeholder{color:#334155}
-.noti{position:fixed;top:10px;left:10px;right:10px;padding:12px 14px;border-radius:11px;font-size:12px;font-weight:500;z-index:200;animation:sd .3s;white-space:pre-line}
-.noti.ok{background:#059669;color:#fff}.noti.err{background:#dc2626;color:#fff}
-@keyframes sd{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.tbl{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:12px}
-.tbl th{background:rgba(99,102,241,.08);color:#a5b4fc;font-weight:600;text-align:left;padding:6px 7px;font-size:9px;text-transform:uppercase}
-.tbl td{padding:6px 7px;border-bottom:1px solid rgba(255,255,255,.03);color:#cbd5e1}
-.tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:600}
-.tg{background:rgba(16,185,129,.12);color:#6ee7b7}.tb{background:rgba(239,68,68,.12);color:#fca5a5}
-.tabs{display:flex;gap:2px;background:rgba(255,255,255,.02);border-radius:9px;padding:3px;margin-bottom:12px}
-.tab{flex:1;text-align:center;padding:7px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;color:#475569;transition:.15s}
-.tab.on{background:rgba(99,102,241,.15);color:#a5b4fc}
-.spin{display:inline-block;width:24px;height:24px;border:3px solid rgba(255,255,255,.08);border-top-color:#6366f1;border-radius:50%;animation:sp .7s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-.lt{font-size:11px;color:#64748b;margin-top:4px}
-.hid{display:none!important}
-.tc{text-align:center}
-.box{background:linear-gradient(135deg,#1e293b,#1e1b4b);border:1px solid rgba(99,102,241,.12);border-radius:14px;padding:20px;margin-top:14px}
-.ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,.92);z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;-webkit-user-select:none;user-select:none}.w{max-width:480px;margin:0 auto;padding:14px;padding-bottom:50px}.hdr{text-align:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:14px}.hdr h1{font-size:18px;font-weight:700;color:#f1f5f9}.hdr .sub{font-size:11px;color:#64748b;margin-top:2px}.card{background:linear-gradient(135deg,#1e293b,#1e1b4b);border:1px solid rgba(99,102,241,.15);border-radius:14px;padding:14px;margin-bottom:12px}.card .row{display:flex;align-items:center;gap:10px}.ava{width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0}.nm{font-size:15px;font-weight:600;color:#fff}.det{font-size:11px;color:#94a3b8}.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:7px;font-size:10px;font-weight:600;border:1px solid;margin:0 4px 8px 0}.b-b{background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.15);color:#93c5fd}.b-g{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.15);color:#6ee7b7}.sg{background:#1e293b;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:10px;margin-bottom:12px}.sg .lbl{font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}.sg .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}.sg .it{text-align:center}.sg .it .t{font-size:9px;color:#64748b}.sg .it .v{font-size:13px;font-weight:600;color:#fff}.cam{background:#0f172a;border:2px solid rgba(99,102,241,.2);border-radius:14px;overflow:hidden;margin-bottom:12px;position:relative}.cam video,.cam img{width:100%;display:block;max-height:300px;object-fit:cover}.cam video{transform:scaleX(-1)}.cam-ph{padding:36px 16px;text-align:center;color:#475569;font-size:12px}.live{position:absolute;top:8px;left:8px;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.7);padding:3px 8px;border-radius:6px;font-size:10px;color:#ef4444;font-weight:700}.live::before{content:'';width:6px;height:6px;background:#ef4444;border-radius:50%;animation:bl 1s infinite}@keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}.fr{background:#1e293b;border-radius:10px;padding:10px;margin-bottom:12px;text-align:center}.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:13px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;color:#fff;margin-bottom:7px}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.3;cursor:not-allowed}.btn-p{background:linear-gradient(135deg,#6366f1,#8b5cf6)}.btn-g{background:linear-gradient(135deg,#10b981,#059669)}.btn-r{background:linear-gradient(135deg,#ef4444,#dc2626)}.btn-d{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#94a3b8}.btn-o{background:linear-gradient(135deg,#f59e0b,#d97706)}.btn-sm{padding:9px;font-size:12px;border-radius:9px}.fg{margin-bottom:10px}.fg label{display:block;font-size:11px;font-weight:600;color:#94a3b8;margin-bottom:3px}.fg input,.fg select{width:100%;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px;color:#fff;font-family:inherit;font-size:13px;outline:0}.fg input:focus{border-color:rgba(99,102,241,.4)}.fg input::placeholder{color:#334155}.noti{position:fixed;top:10px;left:10px;right:10px;padding:12px 14px;border-radius:11px;font-size:12px;font-weight:500;z-index:200;animation:sd .3s;white-space:pre-line}.noti.ok{background:#059669;color:#fff}.noti.err{background:#dc2626;color:#fff}.noti.inf{background:#2563eb;color:#fff}@keyframes sd{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}.tbl{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:12px}.tbl th{background:rgba(99,102,241,.08);color:#a5b4fc;font-weight:600;text-align:left;padding:6px 7px;font-size:9px;text-transform:uppercase}.tbl td{padding:6px 7px;border-bottom:1px solid rgba(255,255,255,.03);color:#cbd5e1}.tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:600}.tg{background:rgba(16,185,129,.12);color:#6ee7b7}.tb{background:rgba(239,68,68,.12);color:#fca5a5}.tabs{display:flex;gap:2px;background:rgba(255,255,255,.02);border-radius:9px;padding:3px;margin-bottom:12px}.tab{flex:1;text-align:center;padding:7px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;color:#475569;transition:.15s}.tab.on{background:rgba(99,102,241,.15);color:#a5b4fc}.spin{display:inline-block;width:24px;height:24px;border:3px solid rgba(255,255,255,.08);border-top-color:#6366f1;border-radius:50%;animation:sp .7s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}.lt{font-size:11px;color:#64748b;margin-top:4px}.hid{display:none!important}.tc{text-align:center}.box{background:linear-gradient(135deg,#1e293b,#1e1b4b);border:1px solid rgba(99,102,241,.12);border-radius:14px;padding:20px;margin-top:14px}.ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,.92);z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column}
 </style>
 </head>
 <body>
@@ -71,30 +17,15 @@ body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;m
   <div class="hdr"><h1>📱 iPOST Davomat</h1><div class="sub" id="clock"></div></div>
 
   <!-- LOGIN -->
-  <div id="pLogin">
-    <div class="box">
-      <div class="tc" style="margin-bottom:14px"><div style="font-size:36px;margin-bottom:6px">🔐</div><div style="font-size:15px;font-weight:600;color:#a5b4fc">Tizimga kirish</div></div>
-      <div class="fg"><label>Gmail</label><input type="email" id="inEmail" placeholder="sizning@gmail.com"></div>
-      <button class="btn btn-p" onclick="doLogin()">Kirish</button>
-    </div>
-  </div>
+  <div id="pLogin"><div class="box"><div class="tc" style="margin-bottom:14px"><div style="font-size:36px;margin-bottom:6px">🔐</div><div style="font-size:15px;font-weight:600;color:#a5b4fc">Tizimga kirish</div></div><div class="fg"><label>Gmail</label><input type="email" id="inEmail" placeholder="sizning@gmail.com" autocomplete="email"></div><button class="btn btn-p" onclick="doLogin()">Kirish</button></div></div>
 
   <!-- EMPLOYEE -->
   <div id="pEmp" class="hid">
     <div class="card"><div class="row"><div class="ava" id="eAva">?</div><div><div class="nm" id="eNm"></div><div class="det" id="ePos"></div></div></div></div>
     <div style="margin-bottom:10px"><span class="badge b-b" id="eEmail"></span><span class="badge b-g" id="eShift"></span></div>
     <div class="sg"><div class="lbl">📋 Bugungi holat</div><div class="grid"><div class="it"><div class="t">Kelish</div><div class="v" id="eIn">—</div></div><div class="it"><div class="t">Ketish</div><div class="v" id="eOut">—</div></div><div class="it"><div class="t">Ishlagan</div><div class="v" id="eWk" style="color:#10b981">—</div></div></div></div>
-
-    <div class="cam" id="eCam">
-      <div class="cam-ph" id="eCamPh">📷 Kamerani yoqing ↓</div>
-      <video id="eVid" autoplay playsinline muted class="hid"></video>
-      <div class="live hid" id="eLive">● LIVE</div>
-      <canvas id="eCvs" class="hid"></canvas>
-      <img id="eSnap" class="hid" style="width:100%;max-height:300px;object-fit:cover">
-    </div>
-
-    <div id="eFr" class="fr hid"><div style="font-size:12px;color:#6ee7b7">✅ Rasm qabul qilindi</div></div>
-
+    <div class="cam" id="eCam"><div class="cam-ph" id="eCamPh">📷 Kamerani yoqing ↓</div><video id="eVid" autoplay playsinline muted class="hid"></video><div class="live hid" id="eLive">● LIVE</div><canvas id="eCvs" class="hid"></canvas><img id="eSnap" class="hid" style="width:100%;max-height:300px;object-fit:cover"></div>
+    <div id="eFr" class="fr hid"><div id="eFrTx" style="font-size:11px;color:#94a3b8"></div></div>
     <div id="eBtns">
       <button class="btn btn-p" id="eBCam" onclick="eCamOn()">📷 Kamerani yoqish</button>
       <button class="btn btn-o hid" id="eBSnap" onclick="eCamSnap()">📸 Suratga olish</button>
@@ -102,7 +33,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;m
       <button class="btn btn-g hid" id="eBIn" onclick="doCheckIn()">🟢 ISHGA KELDIM</button>
       <button class="btn btn-r hid" id="eBOut" onclick="doCheckOut()">🔴 ISHDAN KETDIM</button>
     </div>
-
     <div id="eDone" class="hid tc" style="padding:16px 0"><div style="font-size:40px;margin-bottom:8px">✅</div><div style="font-size:15px;font-weight:600;color:#10b981">Bugungi kun yakunlangan!</div><div style="font-size:11px;color:#64748b;margin-top:3px" id="eDoneD"></div></div>
     <button class="btn btn-d btn-sm" onclick="logout()" style="margin-top:10px">🚪 Chiqish</button>
   </div>
@@ -111,20 +41,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;m
   <div id="pAdmin" class="hid">
     <div class="card"><div class="row"><div class="ava" style="background:linear-gradient(135deg,#f59e0b,#d97706)">👨‍💼</div><div><div class="nm">Admin Panel</div><div class="det" id="aEmail"></div></div></div></div>
     <div class="tabs"><div class="tab on" id="at1" onclick="aTab('aRep')">📊 Hisobot</div><div class="tab" id="at2" onclick="aTab('aEmp')">👥 Xodimlar</div><div class="tab" id="at3" onclick="aTab('aReg')">➕ Yangi</div></div>
-
-    <div id="aRep">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:12px">
-        <div class="sg"><div class="it"><div class="v" id="arAll" style="font-size:20px;color:#a5b4fc">—</div><div class="t">Jami</div></div></div>
-        <div class="sg"><div class="it"><div class="v" id="arIn" style="font-size:20px;color:#10b981">—</div><div class="t">Ishda</div></div></div>
-        <div class="sg"><div class="it"><div class="v" id="arAbs" style="font-size:20px;color:#ef4444">—</div><div class="t">Kelmagan</div></div></div>
-      </div>
-      <div id="arLoad" class="tc"><div class="spin"></div></div>
-      <div id="arTbl"></div>
-      <button class="btn btn-d btn-sm" onclick="loadReport()">🔄 Yangilash</button>
-    </div>
-
-    <div id="aEmp" class="hid"><div id="aeLoad" class="tc"><div class="spin"></div></div><div id="aeTbl"></div><button class="btn btn-d btn-sm" onclick="loadEmps()">🔄 Yangilash</button></div>
-
+    <div id="aRep"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:12px"><div class="sg"><div class="it"><div class="v" id="arAll" style="font-size:20px;color:#a5b4fc">—</div><div class="t">Jami</div></div></div><div class="sg"><div class="it"><div class="v" id="arIn" style="font-size:20px;color:#10b981">—</div><div class="t">Ishda</div></div></div><div class="sg"><div class="it"><div class="v" id="arAbs" style="font-size:20px;color:#ef4444">—</div><div class="t">Kelmagan</div></div></div></div><div id="arLoad" class="tc"><div class="spin"></div></div><div id="arTbl"></div><button class="btn btn-d btn-sm" onclick="loadReport()" style="margin-top:6px">🔄 Yangilash</button></div>
+    <div id="aEmp" class="hid"><div id="aeLoad" class="tc"><div class="spin"></div></div><div id="aeTbl"></div><button class="btn btn-d btn-sm" onclick="loadEmps()" style="margin-top:6px">🔄 Yangilash</button></div>
     <div id="aReg" class="hid">
       <div class="fg"><label>F.I.O *</label><input id="rFio" placeholder="Familiya Ism"></div>
       <div class="fg"><label>Lavozim *</label><input id="rPos" placeholder="Operator"></div>
@@ -132,139 +50,125 @@ body{font-family:'Inter',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;m
       <div class="fg"><label>Telefon</label><input id="rPh" placeholder="+998901234567"></div>
       <div class="fg"><label>Gmail *</label><input type="email" id="rEm" placeholder="xodim@gmail.com"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px"><div class="fg"><label>Smena boshi</label><input type="time" id="rSS" value="09:00"></div><div class="fg"><label>Smena oxiri</label><input type="time" id="rSE" value="18:00"></div></div>
+      <div class="fg"><label>Dam olish kuni</label><select id="rRD"><option value="7">Yakshanba</option><option value="1">Dushanba</option><option value="2">Seshanba</option><option value="3">Chorshanba</option><option value="4">Payshanba</option><option value="5">Juma</option><option value="6">Shanba</option></select></div>
       <div class="fg"><label>Status</label><select id="rSt"><option value="active">✅ Active</option><option value="pending">⏳ Pending</option></select></div>
-      <div class="fg"><label>📷 Bazaviy rasm</label><div class="cam"><div class="cam-ph" id="rCamPh">📷 Kamera yoki 📁 Fayldan yuklang</div><video id="rVid" autoplay playsinline muted class="hid"></video><canvas id="rCvs" class="hid"></canvas><img id="rImg" class="hid" style="width:100%;max-height:200px;object-fit:cover"></div></div>
-      <input type="file" id="rFile" accept="image/*" style="display:none" onchange="rFileUpload(event)">
-      <div style="display:flex;gap:5px;margin-bottom:10px"><button class="btn btn-p btn-sm" id="rBC" onclick="rCamOn()" style="flex:1;margin:0">📷 Kamera</button><button class="btn btn-o btn-sm" id="rBF" onclick="$('rFile').click()" style="flex:1;margin:0">📁 Rasm yuklash</button><button class="btn btn-o btn-sm hid" id="rBS" onclick="rCamSnap()" style="flex:1;margin:0">📸 Olish</button><button class="btn btn-d btn-sm hid" id="rBR" onclick="rCamRe()" style="flex:1;margin:0">🔄</button></div>
+      <div class="fg"><label>📷 Bazaviy rasm</label><div class="cam" id="rCam"><div class="cam-ph" id="rCamPh">📷 Kamerani yoqing yoki rasm yuklang</div><video id="rVid" autoplay playsinline muted class="hid"></video><canvas id="rCvs" class="hid"></canvas><img id="rImg" class="hid" style="width:100%;max-height:200px;object-fit:cover"></div></div>
+      <div style="display:flex;gap:5px;margin-bottom:10px"><button class="btn btn-p btn-sm" id="rBC" onclick="rCamOn()" style="flex:1;margin:0">📷 Kamera</button><button class="btn btn-o btn-sm" id="rBF" onclick="$('rFile').click()" style="flex:1;margin:0">📁 Yuklash</button><button class="btn btn-o btn-sm hid" id="rBS" onclick="rCamSnap()" style="flex:1;margin:0">📸 Olish</button><button class="btn btn-d btn-sm hid" id="rBR" onclick="rCamRe()" style="flex:1;margin:0">🔄</button></div>
+      <input type="file" id="rFile" accept="image/*" class="hid" onchange="rFileUpload(event)">
       <button class="btn btn-g" onclick="regSubmit()">✅ Ro'yxatga olish</button>
     </div>
     <button class="btn btn-d btn-sm" onclick="logout()" style="margin-top:14px">🚪 Chiqish</button>
   </div>
-
-  <div id="ov" class="ov hid"><div class="spin"></div><div class="lt" id="ovTx"></div></div>
+  <div id="ov" class="ov hid"><div class="spin"></div><div class="lt" id="ovTx">Yuklanmoqda...</div></div>
 </div>
 
 <script>
-// =============================================
-// ⚠️ SHU YERGA APPS SCRIPT WEB APP URL JOYLANG:
-var API = 'https://script.google.com/macros/s/AKfycbwQwcTq9DrAlv3fMc8WD-7XSCq0AnTgifgmG97ABfSd4crK4TH3dy4J_i0zNJlyo2OD/exec';
-// =============================================
+// ⚠️ APPS SCRIPT URL:
+var API='https://script.google.com/macros/s/AKfycbwQwcTq9DrAlv3fMc8WD-7XSCq0AnTgifgmG97ABfSd4crK4TH3dy4J_i0zNJlyo2OD/exec';
 
 var U=null,ST=null,photo64=null,fSc=0;
 var eStream=null,rStream=null,rPhoto=null;
 var _ip='',_net='',_ua=navigator.userAgent,_lat='',_lng='',_acc='',_dev='';
 var isAdmin=false;
 
-window.onload=function(){
-  tic();setInterval(tic,1000);grab();
-  var sv=localStorage.getItem('ipost_em');
-  if(sv){$('inEmail').value=sv;doLogin()}
-};
-
+window.onload=function(){tic();setInterval(tic,1000);grab();var sv=localStorage.getItem('ipost_em');if(sv){$('inEmail').value=sv;doLogin()}};
 function tic(){var n=new Date();$('clock').textContent=n.toLocaleDateString('uz-UZ',{weekday:'short',day:'numeric',month:'short',year:'numeric'})+' | '+n.toLocaleTimeString('uz-UZ')}
 
-// ===== QURILMA + TARMOQ =====
 function grab(){
   fetch('https://api.ipify.org?format=json').then(function(r){return r.json()}).then(function(d){_ip=d.ip}).catch(function(){_ip='unk'});
   var c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
-  if(c){var p=[];if(c.type)p.push(c.type);if(c.effectiveType)p.push(c.effectiveType);if(c.downlink)p.push(c.downlink+'Mbps');_net=p.join(',')}
-  try{var pc=new RTCPeerConnection({iceServers:[]});pc.createDataChannel('');pc.createOffer().then(function(o){pc.setLocalDescription(o)});pc.onicecandidate=function(e){if(e&&e.candidate){var m=e.candidate.candidate.match(/(\d+\.\d+\.\d+\.\d+)/);if(m)_net+=',local:'+m[1]}};setTimeout(function(){try{pc.close()}catch(x){}},3000)}catch(e){}
+  if(c){var p=[];if(c.type)p.push('type:'+c.type);if(c.effectiveType)p.push('eff:'+c.effectiveType);if(c.downlink)p.push('dl:'+c.downlink+'Mbps');_net=p.join(',')}
   if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){_lat=p.coords.latitude.toFixed(6);_lng=p.coords.longitude.toFixed(6);_acc=Math.round(p.coords.accuracy)+'m'},function(){_lat='denied';_lng='denied'},{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
-  // Qurilma fingerprint
-  var d=[];
-  d.push(navigator.platform);
-  d.push(screen.width+'x'+screen.height);
-  d.push('r'+window.devicePixelRatio);
-  d.push((navigator.hardwareConcurrency||'?')+'cores');
-  d.push((navigator.deviceMemory||'?')+'GB');
-  d.push('touch:'+navigator.maxTouchPoints);
-  var ua=navigator.userAgent;
-  if(ua.indexOf('Android')>0){var v=ua.match(/Android\s([\d.]+)/);d.push('Android'+(v?' '+v[1]:''))}
-  else if(/iPhone|iPad/.test(ua))d.push('iOS');
-  else if(ua.indexOf('Windows')>0)d.push('Windows');
-  else if(ua.indexOf('Mac')>0)d.push('Mac');
-  if(ua.indexOf('Edg/')>0)d.push('Edge');else if(ua.indexOf('Chrome/')>0)d.push('Chrome');else if(ua.indexOf('Firefox/')>0)d.push('Firefox');else if(ua.indexOf('Safari/')>0)d.push('Safari');
+  var d=[];d.push(navigator.platform);d.push(screen.width+'x'+screen.height);d.push('r'+window.devicePixelRatio);d.push((navigator.hardwareConcurrency||'?')+'cores');d.push((navigator.deviceMemory||'?')+'GB');d.push('touch:'+navigator.maxTouchPoints);
+  var ua=navigator.userAgent;if(ua.indexOf('Android')>0){var av=ua.match(/Android\s([\d.]+)/);d.push('Android'+(av?' '+av[1]:''))}else if(ua.indexOf('iPhone')>0)d.push('iOS');else if(ua.indexOf('Windows')>0)d.push('Windows');else if(ua.indexOf('Mac')>0)d.push('Mac');
+  if(ua.indexOf('Edg/')>0)d.push('Edge');else if(ua.indexOf('Chrome/')>0)d.push('Chrome');else if(ua.indexOf('Firefox/')>0)d.push('Firefox');
+  try{var cv=document.createElement('canvas');var cx=cv.getContext('2d');cx.textBaseline='top';cx.font='14px Arial';cx.fillText('fp',2,2);d.push('cfp:'+cv.toDataURL().slice(-12))}catch(e){}
   _dev=d.join(' | ');
 }
 
-// ===== API =====
 function api(act,data,cb){
   var ctrl=new AbortController();var tm=setTimeout(function(){ctrl.abort()},30000);
   fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:act,data:data}),signal:ctrl.signal})
   .then(function(r){return r.json()}).then(function(d){clearTimeout(tm);cb(d)})
-  .catch(function(e){clearTimeout(tm);cb({success:false,message:e.name==='AbortError'?'⏱ Server javob bermadi. Qayta urinib ko\'ring.':'Tarmoq: '+e.message})});
+  .catch(function(e){clearTimeout(tm);cb({success:false,message:e.name==='AbortError'?'⏱ Server javob bermadi.':'Tarmoq: '+e.message})});
 }
 
-// ===== LOGIN =====
+// LOGIN
 function doLogin(){
   var em=$('inEmail').value.trim().toLowerCase();
   if(!em||em.indexOf('@')<0){ntf('⚠️ Gmail kiriting!','err');return}
   ovShow('Tekshirilmoqda...');
-  api('login',{email:em},function(r){
-    ovHide();
-    if(!r.success){ntf('❌ '+r.message,'err');return}
+  api('login',{email:em},function(r){ovHide();if(!r.success){ntf('❌ '+r.message,'err');return}
     U=r.employee;ST=r.todayStatus;localStorage.setItem('ipost_em',em);
-    var admins=(r.settings&&r.settings.adminEmails)||'';
+    var admins='';if(r.settings&&r.settings.adminEmails)admins=r.settings.adminEmails;
     isAdmin=admins.toLowerCase().split(',').map(function(s){return s.trim()}).indexOf(em)>=0;
     if(isAdmin)setupAdmin(em);else setupEmp(em);
   });
 }
-function logout(){localStorage.removeItem('ipost_em');stopS(eStream);stopS(rStream);eStream=null;rStream=null;U=null;ST=null;photo64=null;pg('pLogin')}
+function logout(){localStorage.removeItem('ipost_em');stopS(eStream);eStream=null;stopS(rStream);rStream=null;U=null;ST=null;photo64=null;isAdmin=false;pg('pLogin')}
 
-// ===== EMPLOYEE =====
+// EMPLOYEE
 function setupEmp(em){
   $('eAva').textContent=U.fullName.charAt(0);$('eNm').textContent=U.fullName;
   $('ePos').textContent=U.position+' · '+U.department;
-  $('eEmail').textContent='📧 '+em;
-  $('eShift').textContent='🕐 '+(U.shiftStart||'09:00')+' — '+(U.shiftEnd||'18:00');
-  H('eDone');S('eBtns');S('eCam');S('eBCam');H('eBSnap');H('eBRe');H('eBIn');H('eBOut');H('eFr');S('eCamPh');H('eSnap');H('eVid');H('eLive');
+  $('eEmail').textContent='📧 '+em;$('eShift').textContent='🕐 '+(U.shiftStart||'09:00')+' — '+(U.shiftEnd||'18:00');
+  H('eDone');S('eBtns');S('eCam');S('eBCam');H('eBSnap');H('eBRe');H('eBIn');H('eBOut');H('eFr');
+  S('eCamPh');H('eSnap');H('eVid');H('eLive');
   $('eIn').textContent='—';$('eOut').textContent='—';$('eWk').textContent='—';
   if(ST&&ST.exists){
     $('eIn').textContent=ST.checkIn||'—';$('eOut').textContent=ST.checkOut||'—';$('eWk').textContent=ST.workedHours||'—';
-    if(ST.status==='checked_out'){S('eDone');$('eDoneD').textContent=ST.checkIn+' → '+ST.checkOut+' | '+ST.workedHours;H('eBtns');H('eCam')}
+    if(ST.status==='checked_out'){S('eDone');$('eDoneD').textContent='Kelish: '+ST.checkIn+' → Ketish: '+ST.checkOut+' | '+ST.workedHours;H('eBtns');H('eCam')}
   }
   pg('pEmp');
 }
 
-// ===== CAMERA =====
+// CAMERA
 function eCamOn(){
   var b=$('eBCam');b.textContent='⏳...';b.disabled=true;
   navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}}})
   .then(function(s){eStream=s;$('eVid').srcObject=s;S('eVid');H('eCamPh');H('eBCam');S('eBSnap');S('eLive')})
-  .catch(function(e){b.textContent='📷 Kamerani yoqish';b.disabled=false;ntf('🚫 Kamera: '+e.message,'err')});
+  .catch(function(e){b.textContent='📷 Kamerani yoqish';b.disabled=false;ntf(e.name==='NotAllowedError'?'🚫 Kamera ruxsati kerak!':'Kamera: '+e.message,'err')});
 }
-function eCamSnap(){
-  var v=$('eVid'),c=$('eCvs');c.width=v.videoWidth||640;c.height=v.videoHeight||480;
-  var x=c.getContext('2d');x.translate(c.width,0);x.scale(-1,1);x.drawImage(v,0,0);x.setTransform(1,0,0,1,0,0);
-  photo64=c.toDataURL('image/jpeg',0.7);$('eSnap').src=photo64;S('eSnap');
-  stopS(eStream);eStream=null;H('eVid');H('eLive');H('eBSnap');S('eBRe');
-  // TUGMALARNI DARHOL KO'RSAT — qotib qolish YO'Q!
-  S('eFr');
-  if(ST&&ST.exists&&ST.status==='checked_in'){S('eBOut');H('eBIn')}
-  else{S('eBIn');H('eBOut')}
-}
-function eCamRe(){H('eSnap');H('eFr');H('eBIn');H('eBOut');H('eBRe');photo64=null;eCamOn()}
 
-// ===== CHECK IN/OUT =====
+function eCamSnap(){
+  var v=$('eVid'),c=$('eCvs');
+  c.width=v.videoWidth||640;c.height=v.videoHeight||480;
+  var x=c.getContext('2d');x.translate(c.width,0);x.scale(-1,1);x.drawImage(v,0,0);x.setTransform(1,0,0,1,0,0);
+  photo64=c.toDataURL('image/jpeg',0.7);
+  $('eSnap').src=photo64;S('eSnap');
+  stopS(eStream);eStream=null;
+  H('eVid');H('eLive');H('eBSnap');S('eBRe');
+
+  // Rasm qabul qilindi — DOIM tugma chiqadi
+  S('eFr');
+  $('eFrTx').innerHTML='✅ Rasm qabul qilindi<br><span style="font-size:10px;color:#64748b">🔒 Yuz tekshiruvi server tomondan o\'tkaziladi</span>';
+  fSc=0;
+
+  if(ST&&ST.exists&&ST.status==='checked_in'){H('eBIn');S('eBOut')}
+  else if(!ST||!ST.exists){S('eBIn');H('eBOut')}
+}
+
+function eCamRe(){H('eSnap');H('eFr');H('eBIn');H('eBOut');H('eBRe');photo64=null;fSc=0;eCamOn()}
+
+// CHECK IN/OUT
 function doCheckIn(){
   var b=$('eBIn');b.disabled=true;b.textContent='⏳ Saqlanmoqda...';
-  api('checkIn',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:80,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
+  api('checkIn',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:fSc,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
     b.disabled=false;b.textContent='🟢 ISHGA KELDIM';
     if(r.success){ntf(r.message,'ok');setTimeout(function(){doLogin()},1500)}else ntf(r.message,'err');
   });
 }
 function doCheckOut(){
   var b=$('eBOut');b.disabled=true;b.textContent='⏳ Saqlanmoqda...';
-  api('checkOut',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:80,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
+  api('checkOut',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:fSc,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
     b.disabled=false;b.textContent='🔴 ISHDAN KETDIM';
     if(r.success){ntf(r.message,'ok');setTimeout(function(){doLogin()},1500)}else ntf(r.message,'err');
   });
 }
 
-// ===== ADMIN =====
+// ADMIN
 function setupAdmin(em){$('aEmail').textContent=em;pg('pAdmin');loadReport()}
 function aTab(id){['aRep','aEmp','aReg'].forEach(function(t,i){$(t).classList.toggle('hid',t!==id);$('at'+(i+1)).classList.toggle('on',t===id)});if(id==='aEmp')loadEmps()}
-
 function loadReport(){
   $('arTbl').innerHTML='';S('arLoad');
   api('getTodayReport',{},function(r){
@@ -272,51 +176,44 @@ function loadReport(){
     var a=r.attendance||[],ab=r.absent||[];
     $('arAll').textContent=a.length+ab.length;$('arIn').textContent=a.length;$('arAbs').textContent=ab.length;
     var h='';
-    if(a.length){h+='<table class="tbl"><thead><tr><th>Xodim</th><th>Kelish</th><th>Ketish</th><th>Kech.</th></tr></thead><tbody>';a.forEach(function(x){h+='<tr><td style="color:#fff">'+x.fullName+'</td><td>'+x.checkIn+'</td><td>'+(x.checkOut||'—')+'</td><td>'+(x.late>0?'<span class="tag tb">'+x.late+'m</span>':'✅')+'</td></tr>'});h+='</tbody></table>'}
-    if(ab.length){h+='<div style="margin:8px 0 4px;font-size:11px;font-weight:600;color:#fca5a5">🚫 KELMAGANLAR</div><table class="tbl"><thead><tr><th>Xodim</th><th>Bo\'lim</th><th>Smena</th></tr></thead><tbody>';ab.forEach(function(x){h+='<tr><td style="color:#fca5a5">'+x.fullName+'</td><td>'+x.department+'</td><td>'+x.shiftStart+'</td></tr>'});h+='</tbody></table>'}
-    if(!a.length&&!ab.length)h='<div class="tc" style="padding:20px;color:#475569;font-size:12px">Ma\'lumot yo\'q</div>';
+    if(a.length){h+='<table class="tbl"><thead><tr><th>Xodim</th><th>Kelish</th><th>Ketish</th><th>Ishlagan</th><th>Kech.</th></tr></thead><tbody>';a.forEach(function(x){h+='<tr><td style="color:#fff;font-weight:500">'+x.fullName+'</td><td>'+(x.checkIn||'')+'</td><td>'+(x.checkOut||'—')+'</td><td style="color:#10b981">'+(x.worked||'—')+'</td><td>'+(x.late>0?'<span class="tag tb">'+x.late+'m</span>':'✅')+'</td></tr>'});h+='</tbody></table>';}
+    if(ab.length){h+='<div style="margin-top:8px;font-size:11px;font-weight:600;color:#fca5a5;margin-bottom:4px">🚫 KELMAGANLAR</div><table class="tbl"><thead><tr><th>Xodim</th><th>Bo\'lim</th><th>Smena</th></tr></thead><tbody>';ab.forEach(function(x){h+='<tr><td style="color:#fca5a5;font-weight:500">'+x.fullName+'</td><td>'+x.department+'</td><td>'+x.shiftStart+'</td></tr>'});h+='</tbody></table>';}
+    if(!a.length&&!ab.length)h='<div class="tc" style="padding:20px;color:#475569;font-size:12px">Hali ma\'lumot yo\'q</div>';
     $('arTbl').innerHTML=h;
   });
 }
 function loadEmps(){
   $('aeTbl').innerHTML='';S('aeLoad');
-  api('getEmployees',{},function(r){H('aeLoad');if(!r.success)return;var d=r.data||[];var h='<table class="tbl"><thead><tr><th>F.I.O</th><th>Bo\'lim</th><th>Smena</th><th>Status</th></tr></thead><tbody>';d.forEach(function(e){var st=e.status==='active'?'<span class="tag tg">Faol</span>':'<span class="tag tb">'+e.status+'</span>';h+='<tr><td style="color:#fff">'+e.fullName+'</td><td>'+e.department+'</td><td>'+e.shiftStart+' — '+e.shiftEnd+'</td><td>'+st+'</td></tr>'});h+='</tbody></table>';$('aeTbl').innerHTML=h});
+  api('getEmployees',{},function(r){
+    H('aeLoad');if(!r.success)return;var d=r.data||[];
+    var dn={1:'Du',2:'Se',3:'Cho',4:'Pay',5:'Ju',6:'Sha',7:'Yak'};
+    var h='<table class="tbl"><thead><tr><th>F.I.O</th><th>Bo\'lim</th><th>Smena</th><th>Dam</th><th>St</th></tr></thead><tbody>';
+    d.forEach(function(e){var st=e.status==='active'?'<span class="tag tg">✅</span>':e.status==='blocked'?'<span class="tag tb">⛔</span>':'<span class="tag" style="background:rgba(245,158,11,.12);color:#fcd34d">⏳</span>';h+='<tr><td style="color:#fff;font-weight:500">'+e.fullName+'</td><td>'+e.department+'</td><td>'+e.shiftStart+'—'+e.shiftEnd+'</td><td>'+(dn[e.restDay]||'Yak')+'</td><td>'+st+'</td></tr>'});
+    h+='</tbody></table>';$('aeTbl').innerHTML=h;
+  });
 }
 
-// ===== REGISTER =====
+// REGISTER
 function rCamOn(){var b=$('rBC');b.textContent='⏳...';b.disabled=true;navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:480},height:{ideal:360}}}).then(function(s){rStream=s;$('rVid').srcObject=s;S('rVid');H('rCamPh');H('rBC');H('rBF');S('rBS')}).catch(function(e){b.textContent='📷 Kamera';b.disabled=false;ntf('Kamera: '+e.message,'err')})}
 function rCamSnap(){var v=$('rVid'),c=$('rCvs');c.width=v.videoWidth||480;c.height=v.videoHeight||360;var x=c.getContext('2d');x.translate(c.width,0);x.scale(-1,1);x.drawImage(v,0,0);x.setTransform(1,0,0,1,0,0);rPhoto=c.toDataURL('image/jpeg',0.7);$('rImg').src=rPhoto;S('rImg');stopS(rStream);rStream=null;H('rVid');H('rBS');S('rBR');ntf('✅ Rasm olindi!','ok')}
-function rCamRe(){H('rImg');H('rBR');H('rBS');rPhoto=null;$('rFile').value='';S('rBC');S('rBF');S('rCamPh');stopS(rStream);rStream=null;H('rVid');$('rBC').textContent='📷 Kamera';$('rBC').disabled=false}
-function rFileUpload(e){
-  var file=e.target.files[0];if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(ev){
-    var img=new Image();
-    img.onload=function(){
-      var c=$('rCvs');var max=640;var w=img.width,h=img.height;
-      if(w>max){h=Math.round(h*max/w);w=max}
-      c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
-      rPhoto=c.toDataURL('image/jpeg',0.7);
-      $('rImg').src=rPhoto;S('rImg');H('rCamPh');H('rBC');H('rBF');H('rBS');S('rBR');
-      ntf('✅ Rasm yuklandi!','ok');
-    };
-    img.src=ev.target.result;
-  };
-  reader.readAsDataURL(file);
-}
+function rCamRe(){H('rImg');H('rBR');rPhoto=null;S('rBC');S('rBF');$('rBC').textContent='📷 Kamera';$('rBC').disabled=false;S('rCamPh')}
+function rFileUpload(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){var img=new Image();img.onload=function(){var c=document.createElement('canvas');var maxW=640,w=img.width,h=img.height;if(w>maxW){h=h*(maxW/w);w=maxW}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);rPhoto=c.toDataURL('image/jpeg',0.7);$('rImg').src=rPhoto;S('rImg');H('rCamPh');H('rBC');H('rBF');S('rBR');ntf('✅ Rasm yuklandi!','ok')};img.src=ev.target.result};reader.readAsDataURL(file);e.target.value=''}
+
 function regSubmit(){
-  var fn=gv('rFio'),pos=gv('rPos'),dep=gv('rDep'),ph=gv('rPh'),em=gv('rEm');
-  if(!fn||!pos||!dep||!em){ntf('⚠️ Maydonlarni to\'ldiring!','err');return}
-  ovShow('Saqlanmoqda...');
-  api('register',{fullName:fn,position:pos,department:dep,phone:ph,email:em.toLowerCase(),shiftStart:gv('rSS')||'09:00',shiftEnd:gv('rSE')||'18:00',status:$('rSt').value,photo:rPhoto||''},function(r){
-    ovHide();if(r.success){ntf(r.message,'ok');['rFio','rPos','rDep','rPh','rEm'].forEach(function(id){$(id).value=''});H('rImg');H('rBR');S('rBC');S('rBF');$('rBC').textContent='📷 Kamera';$('rBC').disabled=false;S('rCamPh');rPhoto=null;$('rFile').value=''}else ntf(r.message,'err')});
+  var fn=gv('rFio'),pos=gv('rPos'),dep=gv('rDep'),ph=gv('rPh'),em=gv('rEm'),ss=gv('rSS'),se=gv('rSE'),st=$('rSt').value,rd=$('rRD').value;
+  if(!fn||!pos||!dep||!em){ntf('⚠️ Kerakli maydonlarni to\'ldiring!','err');return}
+  if(em.indexOf('@')<0){ntf('⚠️ Gmail noto\'g\'ri!','err');return}
+  ovShow('Ro\'yxatga olish...');
+  api('register',{fullName:fn,position:pos,department:dep,phone:ph,email:em.toLowerCase(),shiftStart:ss||'09:00',shiftEnd:se||'18:00',status:st,photo:rPhoto||'',restDay:parseInt(rd)||7},function(r){
+    ovHide();if(r.success){ntf(r.message,'ok');['rFio','rPos','rDep','rPh','rEm'].forEach(function(id){$(id).value=''});H('rImg');H('rBR');S('rBC');S('rBF');$('rBC').textContent='📷 Kamera';$('rBC').disabled=false;S('rCamPh');rPhoto=null}else ntf(r.message,'err');
+  });
 }
 
-// ===== UTILS =====
+// UTILS
 function $(id){return document.getElementById(id)}
 function S(id){$(id).classList.remove('hid')}function H(id){$(id).classList.add('hid')}
 function gv(id){return $(id).value.trim()}
-function pg(id){['pLogin','pEmp','pAdmin'].forEach(function(p){$(p).classList.toggle('hid',p!==id)})}
+function pg(id){['pLogin','pEmp','pAdmin'].forEach(function(p){$(p).classList.toggle('hid',p!==id)});if(id!=='pEmp'){stopS(eStream);eStream=null}if(id!=='pAdmin'){stopS(rStream);rStream=null}}
 function stopS(s){if(s)s.getTracks().forEach(function(t){t.stop()})}
 function ntf(m,t){var e=$('noti');e.textContent=m;e.className='noti '+t;setTimeout(function(){e.classList.add('hid')},5000)}
 function ovShow(t){$('ovTx').textContent=t||'';$('ov').classList.remove('hid');$('ov').style.display='flex'}
