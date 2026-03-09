@@ -375,7 +375,7 @@ function greetShow(icon,main,extra,extraBg,extraColor,boxBg,sub){
   $('greetSub').textContent=sub||'';
   $('greet').classList.remove('hid');$('greet').style.display='flex';
   if(_greetTimer)clearTimeout(_greetTimer);
-  _greetTimer=setTimeout(function(){greetHide()},5000);
+  _greetTimer=setTimeout(function(){greetHide()},9000);
 }
 function greetHide(){
   if(_greetTimer){clearTimeout(_greetTimer);_greetTimer=null}
