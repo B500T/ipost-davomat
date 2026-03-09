@@ -105,15 +105,35 @@ async function detectFace(img){
 }
 
 function grab(){
-  fetch('https://api.ipify.org?format=json').then(function(r){return r.json()}).then(function(d){_ip=d.ip}).catch(function(){_ip='unk'});
+  fetchIP();fetchGPS();
   var c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
   if(c){var p=[];if(c.type)p.push('type:'+c.type);if(c.effectiveType)p.push('eff:'+c.effectiveType);if(c.downlink)p.push('dl:'+c.downlink+'Mbps');_net=p.join(',')}
-  if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){_lat=p.coords.latitude.toFixed(6);_lng=p.coords.longitude.toFixed(6);_acc=Math.round(p.coords.accuracy)+'m'},function(){_lat='denied';_lng='denied'},{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
   var d=[];d.push(navigator.platform);d.push(screen.width+'x'+screen.height);d.push('r'+window.devicePixelRatio);d.push((navigator.hardwareConcurrency||'?')+'cores');d.push((navigator.deviceMemory||'?')+'GB');d.push('touch:'+navigator.maxTouchPoints);
   var ua=navigator.userAgent;if(ua.indexOf('Android')>0){var av=ua.match(/Android\s([\d.]+)/);d.push('Android'+(av?' '+av[1]:''))}else if(ua.indexOf('iPhone')>0)d.push('iOS');else if(ua.indexOf('Windows')>0)d.push('Windows');else if(ua.indexOf('Mac')>0)d.push('Mac');
   if(ua.indexOf('Edg/')>0)d.push('Edge');else if(ua.indexOf('Chrome/')>0)d.push('Chrome');else if(ua.indexOf('Firefox/')>0)d.push('Firefox');
   try{var cv=document.createElement('canvas');var cx=cv.getContext('2d');cx.textBaseline='top';cx.font='14px Arial';cx.fillText('fp',2,2);d.push('cfp:'+cv.toDataURL().slice(-12))}catch(e){}
   _dev=d.join(' | ');
+}
+
+function fetchIP(){
+  return fetch('https://api.ipify.org?format=json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){_ip=d.ip}).catch(function(){
+    return fetch('https://api64.ipify.org?format=json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){_ip=d.ip}).catch(function(){_ip='unk'})
+  });
+}
+function fetchGPS(){
+  return new Promise(function(resolve){
+    if(!navigator.geolocation){_lat='denied';_lng='denied';resolve();return}
+    navigator.geolocation.getCurrentPosition(function(p){
+      _lat=p.coords.latitude.toFixed(6);_lng=p.coords.longitude.toFixed(6);_acc=Math.round(p.coords.accuracy)+'m';resolve();
+    },function(){_lat='denied';_lng='denied';resolve()},{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+  });
+}
+
+// Check-in/out dan oldin IP va GPS ni yangilash
+async function freshGrab(){
+  await Promise.all([fetchIP(),fetchGPS()]);
+  var c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  if(c){var p=[];if(c.type)p.push('type:'+c.type);if(c.effectiveType)p.push('eff:'+c.effectiveType);if(c.downlink)p.push('dl:'+c.downlink+'Mbps');_net=p.join(',')}
 }
 
 function api(act,data,cb){
@@ -191,15 +211,19 @@ function showBtns(){if(ST&&ST.exists&&ST.status==='checked_in'){H('eBIn');S('eBO
 function eCamRe(){H('eSnap');H('eFr');H('eBIn');H('eBOut');H('eBRe');photo64=null;fSc=0;eCamOn()}
 
 // CHECK IN/OUT
-function doCheckIn(){
-  var b=$('eBIn');b.disabled=true;b.textContent='⏳ Saqlanmoqda...';
+async function doCheckIn(){
+  var b=$('eBIn');b.disabled=true;b.textContent='🔄 IP va GPS yangilanmoqda...';
+  await freshGrab();
+  b.textContent='⏳ Saqlanmoqda...';
   api('checkIn',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:fSc,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
     b.disabled=false;b.textContent='🟢 ISHGA KELDIM';
     if(r.success){ntf(r.message,'ok');setTimeout(function(){doLogin()},1500)}else ntf(r.message,'err');
   });
 }
-function doCheckOut(){
-  var b=$('eBOut');b.disabled=true;b.textContent='⏳ Saqlanmoqda...';
+async function doCheckOut(){
+  var b=$('eBOut');b.disabled=true;b.textContent='🔄 IP va GPS yangilanmoqda...';
+  await freshGrab();
+  b.textContent='⏳ Saqlanmoqda...';
   api('checkOut',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:fSc,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
     b.disabled=false;b.textContent='🔴 ISHDAN KETDIM';
     if(r.success){ntf(r.message,'ok');setTimeout(function(){doLogin()},1500)}else ntf(r.message,'err');
