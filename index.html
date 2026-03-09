@@ -60,6 +60,20 @@
     <button class="btn btn-d btn-sm" onclick="logout()" style="margin-top:14px">🚪 Chiqish</button>
   </div>
   <div id="ov" class="ov hid"><div class="spin"></div><div class="lt" id="ovTx">Yuklanmoqda...</div></div>
+  <div id="pov" class="ov hid">
+    <div style="width:280px;text-align:center">
+      <div id="povIcon" style="font-size:48px;margin-bottom:12px">🔄</div>
+      <div id="povTitle" style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Saqlanmoqda...</div>
+      <div id="povStep" style="font-size:11px;color:#94a3b8;margin-bottom:14px">IP va GPS yangilanmoqda</div>
+      <div style="background:rgba(255,255,255,.08);border-radius:10px;height:20px;overflow:hidden;margin-bottom:8px;position:relative">
+        <div id="povBar" style="height:100%;width:0%;border-radius:10px;background:linear-gradient(90deg,#6366f1,#8b5cf6,#10b981);transition:width 0.3s ease;position:relative">
+          <div style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)" id="povPct">0%</div>
+        </div>
+      </div>
+      <div id="povTime" style="font-size:22px;font-weight:700;color:#a5b4fc;font-variant-numeric:tabular-nums">0.0s</div>
+      <div style="font-size:9px;color:#475569;margin-top:4px">Iltimos kuting...</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -211,22 +225,72 @@ function showBtns(){if(ST&&ST.exists&&ST.status==='checked_in'){H('eBIn');S('eBO
 function eCamRe(){H('eSnap');H('eFr');H('eBIn');H('eBOut');H('eBRe');photo64=null;fSc=0;eCamOn()}
 
 // CHECK IN/OUT
+var _povTimer=null,_povStart=0;
+function povShow(title,icon){
+  $('povIcon').textContent=icon||'🔄';$('povTitle').textContent=title||'Saqlanmoqda...';
+  $('povStep').textContent='Boshlanmoqda...';$('povBar').style.width='0%';$('povPct').textContent='0%';
+  $('povTime').textContent='0.0s';$('pov').classList.remove('hid');$('pov').style.display='flex';
+  _povStart=Date.now();
+  if(_povTimer)clearInterval(_povTimer);
+  _povTimer=setInterval(function(){var s=((Date.now()-_povStart)/1000).toFixed(1);$('povTime').textContent=s+'s'},100);
+}
+function povUpdate(pct,step){
+  $('povBar').style.width=pct+'%';$('povPct').textContent=pct+'%';
+  if(step)$('povStep').textContent=step;
+}
+function povHide(){
+  if(_povTimer){clearInterval(_povTimer);_povTimer=null}
+  $('pov').classList.add('hid');$('pov').style.display='none';
+}
+
 async function doCheckIn(){
-  var b=$('eBIn');b.disabled=true;b.textContent='🔄 IP va GPS yangilanmoqda...';
-  await freshGrab();
-  b.textContent='⏳ Saqlanmoqda...';
+  var b=$('eBIn');b.disabled=true;
+  povShow('Ishga kelish qayd etilmoqda','🟢');
+
+  povUpdate(10,'📡 IP manzil aniqlanmoqda...');
+  await fetchIP();
+  povUpdate(30,'📍 GPS joylashuv aniqlanmoqda...');
+  await fetchGPS();
+  povUpdate(50,'📶 Tarmoq tekshirilmoqda...');
+  var c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  if(c){var p=[];if(c.type)p.push('type:'+c.type);if(c.effectiveType)p.push('eff:'+c.effectiveType);if(c.downlink)p.push('dl:'+c.downlink+'Mbps');_net=p.join(',')}
+  povUpdate(60,'📤 Serverga yuborilmoqda...');
+  var _srvPct=60,_srvInt=setInterval(function(){if(_srvPct<90){_srvPct+=2;povUpdate(_srvPct,'📤 Server javobi kutilmoqda...')}},500);
+
   api('checkIn',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:fSc,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
-    b.disabled=false;b.textContent='🟢 ISHGA KELDIM';
-    if(r.success){ntf(r.message,'ok');setTimeout(function(){doLogin()},1500)}else ntf(r.message,'err');
+    clearInterval(_srvInt);
+    if(r.success){
+      povUpdate(100,'✅ Muvaffaqiyatli qayd etildi!');
+      $('povIcon').textContent='✅';$('povTitle').textContent='Qayd etildi!';
+      setTimeout(function(){povHide();b.disabled=false;b.textContent='🟢 ISHGA KELDIM';ntf(r.message,'ok');setTimeout(function(){doLogin()},500)},1200);
+    }else{
+      povHide();b.disabled=false;b.textContent='🟢 ISHGA KELDIM';ntf(r.message,'err');
+    }
   });
 }
 async function doCheckOut(){
-  var b=$('eBOut');b.disabled=true;b.textContent='🔄 IP va GPS yangilanmoqda...';
-  await freshGrab();
-  b.textContent='⏳ Saqlanmoqda...';
+  var b=$('eBOut');b.disabled=true;
+  povShow('Ishdan ketish qayd etilmoqda','🔴');
+
+  povUpdate(10,'📡 IP manzil aniqlanmoqda...');
+  await fetchIP();
+  povUpdate(30,'📍 GPS joylashuv aniqlanmoqda...');
+  await fetchGPS();
+  povUpdate(50,'📶 Tarmoq tekshirilmoqda...');
+  var c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  if(c){var p=[];if(c.type)p.push('type:'+c.type);if(c.effectiveType)p.push('eff:'+c.effectiveType);if(c.downlink)p.push('dl:'+c.downlink+'Mbps');_net=p.join(',')}
+  povUpdate(60,'📤 Serverga yuborilmoqda...');
+  var _srvPct2=60,_srvInt2=setInterval(function(){if(_srvPct2<90){_srvPct2+=2;povUpdate(_srvPct2,'📤 Server javobi kutilmoqda...')}},500);
+
   api('checkOut',{email:localStorage.getItem('ipost_em'),photo:photo64,faceScore:fSc,ip:_ip,net:_net,ua:_ua,lat:_lat,lng:_lng,locAcc:_acc,device:_dev},function(r){
-    b.disabled=false;b.textContent='🔴 ISHDAN KETDIM';
-    if(r.success){ntf(r.message,'ok');setTimeout(function(){doLogin()},1500)}else ntf(r.message,'err');
+    clearInterval(_srvInt2);
+    if(r.success){
+      povUpdate(100,'✅ Muvaffaqiyatli qayd etildi!');
+      $('povIcon').textContent='✅';$('povTitle').textContent='Qayd etildi!';
+      setTimeout(function(){povHide();b.disabled=false;b.textContent='🔴 ISHDAN KETDIM';ntf(r.message,'ok');setTimeout(function(){doLogin()},500)},1200);
+    }else{
+      povHide();b.disabled=false;b.textContent='🔴 ISHDAN KETDIM';ntf(r.message,'err');
+    }
   });
 }
 
